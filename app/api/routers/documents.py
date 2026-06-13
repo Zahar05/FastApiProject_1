@@ -13,7 +13,7 @@ router = APIRouter(tags=["Documents"])
 def analyze_doc(
     request: AnalyzeDocumentRequest,
     ):
-    task = analyze_doc_task.delay(request.image_id)
+    task = analyze_doc_task.delay(request.image_id, request.email)
 
     return AnalyzeDocumentResponse(detail="Document analysis started", task_id=task.id)
 
