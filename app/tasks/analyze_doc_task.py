@@ -1,20 +1,32 @@
-from app.dependencies.depend_services import (build_document_analyze_service)
+from app.dependencies.depend_services import (build_document_process_service)
 from app.tasks.celery_app import celery_app
-from app.tasks.send_email_task import send_email_task
 
 
 @celery_app.task
-def analyze_doc_task(
-    image_id: int,
-    email: str,
-) -> str:
+def analyze_doc_task(image_id: int, email: str) -> str:
+    service = build_document_process_service()
+    return service.process(image_id=image_id, email=email)
 
-    service = build_document_analyze_service()
 
-    text = service.analyze(image_id)
-    send_email_task.delay(email=email, subject="Image analyzed", message=text)
 
-    return text
+
+# from app.dependencies.depend_services import (build_document_analyze_service)
+# from app.tasks.celery_app import celery_app
+# from app.tasks.send_email_task import send_email_task
+#
+#
+# @celery_app.task
+# def analyze_doc_task(
+#     image_id: int,
+#     email: str,
+# ) -> str:
+#
+#     service = build_document_analyze_service()
+#
+#     text = service.analyze(image_id)
+#     send_email_task.delay(email=email, subject="Image analyzed", message=text)
+#
+#     return text
 
 
 
