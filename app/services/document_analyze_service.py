@@ -11,7 +11,8 @@ class DocumentAnalyzeService:
     def analyze(self, image_id: int) -> str:
 
         image_info = self.django_repository.get_image_info(image_id)
-        text = self.ocr_service.extract_text(image_info["image_url"])
+        text = self.ocr_service.extract_text(image_info["image"])
+        # text = self.ocr_service.extract_text(image_info["image_url"])
 
         return text
 
