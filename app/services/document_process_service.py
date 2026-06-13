@@ -7,9 +7,17 @@ class DocumentProcessService:
     def __init__(self, document_analyze_service: DocumentAnalyzeService):
         self.document_analyze_service = (document_analyze_service)
 
-    def process(self, image_id: int, email: str) -> str:
+    def process(self, image_id: int, email: str) -> dict:
         text = self.document_analyze_service.analyze(image_id)
 
-        send_email_task.delay(email=email, subject="Image analyzed", message=text)
-        return text
+        result = send_email_task.delay(
+            email=email,
+            subject="Image analyzed",
+            message=text,
+        )
+
+        return {
+            "text": text,
+            "email_task_id": result.id,
+        }
 
