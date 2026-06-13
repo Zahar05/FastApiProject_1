@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+celery
+redis
+pytesseract
+pillow
+python-multipart
+pytest
+pytest-cov
+httpx
+email-validator
