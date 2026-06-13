@@ -1,6 +1,10 @@
 from fastapi import APIRouter, Depends
 from app.schemas.analyze import (AnalyzeDocumentRequest,AnalyzeDocumentResponse)
 
+from app.services.document_analyze_service import (DocumentAnalyzeService)
+from app.dependencies.depend_services import (get_document_analyze_service)
+from app.tasks.analyze_doc_task import analyze_doc_task
+
 # from app.services.ocr_service import OCRService
 # from app.dependencies.depend_services import get_ocr_service
 # from app.services.django_client import DjangoClient
@@ -8,8 +12,6 @@ from app.schemas.analyze import (AnalyzeDocumentRequest,AnalyzeDocumentResponse)
 # from app.repositories.django_repository import DjangoRepository
 # from app.dependencies.depend_services import get_django_repository
 
-from app.services.document_analyze_service import (DocumentAnalyzeService)
-from app.dependencies.depend_services import (get_document_analyze_service)
 
 
 router = APIRouter(tags=["Documents"])
@@ -25,15 +27,9 @@ def analyze_doc(
     # django_repository: DjangoRepository = Depends(get_django_repository),
     # django_client: DjangoClient = Depends(get_django_client),
 ):
-    text = document_service.analyze(request.image_id)
-    # image_info = django_client.get_image_info(request.image_id# )
-    # image_info = django_repository.get_image_info(request.image_id# )
-    # text = ocr_service.extract_text(image_info["image_url"]# )
+    task = analyze_doc_task.delay(request.image_id)
 
-    return AnalyzeDocumentResponse(
-        detail=text,
-        task_id="temporary-task-id",
-    )
+    return AnalyzeDocumentResponse(detail="Document analysis started", task_id=task.id)
 
 
 
