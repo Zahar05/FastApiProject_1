@@ -5,14 +5,6 @@ from app.services.document_analyze_service import (DocumentAnalyzeService)
 from app.dependencies.depend_services import (get_document_analyze_service)
 from app.tasks.analyze_doc_task import analyze_doc_task
 
-# from app.services.ocr_service import OCRService
-# from app.dependencies.depend_services import get_ocr_service
-# from app.services.django_client import DjangoClient
-# from app.dependencies.depend_services import get_django_client
-# from app.repositories.django_repository import DjangoRepository
-# from app.dependencies.depend_services import get_django_repository
-
-
 
 router = APIRouter(tags=["Documents"])
 
