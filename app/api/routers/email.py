@@ -4,7 +4,6 @@ from app.tasks.send_email_task import send_email_task
 
 router = APIRouter(tags=["Email"])
 
-
 @router.post("/send_message_to_email", response_model=SendEmailResponse)
 def send_message_to_email(request: SendEmailRequest):
     task = send_email_task.delay(
