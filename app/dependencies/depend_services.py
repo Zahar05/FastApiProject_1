@@ -19,11 +19,11 @@ def get_django_repository() -> DjangoRepository:
         django_client=get_django_client()
     )
 
-def get_document_analyze_service() -> DocumentAnalyzeService:
-    return DocumentAnalyzeService(
-        django_repository=get_django_repository(),
-        ocr_service=get_ocr_service(),
-    )
+# def get_document_analyze_service() -> DocumentAnalyzeService:
+#     return DocumentAnalyzeService(
+#         django_repository=get_django_repository(),
+#         ocr_service=get_ocr_service(),
+#     )
 
 def build_document_analyze_service() -> DocumentAnalyzeService:
     return DocumentAnalyzeService(
@@ -32,3 +32,6 @@ def build_document_analyze_service() -> DocumentAnalyzeService:
         ),
         ocr_service=OCRService(),
     )
+
+def get_document_analyze_service() -> DocumentAnalyzeService:
+    return build_document_analyze_service()
