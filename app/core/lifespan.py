@@ -11,3 +11,4 @@ async def lifespan(app):
     yield
 
     print("Application shutdown")
+
