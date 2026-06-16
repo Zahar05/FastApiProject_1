@@ -5,8 +5,13 @@ class DjangoClient:
 
     def get_image_info(self, image_id: int) -> dict:
         response = requests.get(
-            f"http://127.0.0.1:8000/api/images/{image_id}/"
+            f"http://web:8000/api/images/{image_id}/"
         )
+        #     f"http://django_app:8000/api/images/{image_id}/"
+        # )
+
+        #     f"http://127.0.0.1:8000/api/images/{image_id}/"
+        # )
 
         response.raise_for_status()
 

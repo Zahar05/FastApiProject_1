@@ -1,0 +1,49 @@
+services:
+
+  ocr:
+    build: .
+    container_name: ocr
+    ports:
+      - "8001:8001"
+    networks:
+      - backend-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    networks:
+      - backend-network
+
+  worker:
+    build: .
+    container_name: celery_worker
+    command: celery -A app.tasks.celery_app worker --loglevel=info
+    depends_on:
+      - redis
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    external: true
+
+
+
+
+#version: "3.9"
+#
+#services:
+#  ocr:
+#    build: .
+#    container_name: ocr
+#
+#    ports:
+#      - "8001:8001"
+#
+#    networks:
+#      - backend-network
+#
+#networks:
+#  backend-network:
+#    external: true
+#

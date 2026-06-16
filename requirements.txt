@@ -9,5 +9,6 @@ pillow
 python-multipart
 pytest
 pytest-cov
+requests
 httpx
 email-validator

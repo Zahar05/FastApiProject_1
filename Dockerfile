@@ -2,6 +2,11 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    tesseract-ocr-rus \
+    && apt-get clean \
+     economist && rm -rf /var/lib/apt/lists/*
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
