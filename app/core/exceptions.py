@@ -4,8 +4,10 @@ class ImageNotFoundException(Exception):
 
 
 class OCRException(Exception):
-    pass
+    def __init__(self, detail: str):
+        self.detail = detail
 
 
 class EmailSendException(Exception):
-    pass
+    def __init__(self, detail: str):
+        self.detail = detail

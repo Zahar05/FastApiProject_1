@@ -1,8 +1,8 @@
-from fastapi import APIRouter
+# from app.services.document_process_service import DocumentProcessService
+from fastapi import APIRouter, Depends
 from app.schemas.analyze import (AnalyzeDocumentRequest,AnalyzeDocumentResponse)
-
 from app.tasks.analyze_doc_task import analyze_doc_task
-
+from app.dependencies.depend_services import get_service_name
 
 router = APIRouter(tags=["Documents"])
 
@@ -12,3 +12,10 @@ def analyze_doc(request: AnalyzeDocumentRequest):
 
     return AnalyzeDocumentResponse(detail="Document analysis started", task_id=task.id)
 
+@router.get("/service_info")
+def service_info(
+    service_name: str = Depends(get_service_name)
+):
+    return {
+        "service_name": service_name
+    }

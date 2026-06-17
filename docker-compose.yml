@@ -11,21 +11,71 @@ services:
   redis:
     image: redis:7-alpine
     container_name: redis
+    # 1. Добавлен volume для сохранения данных (брокера/кэша) на диске
+    volumes:
+      - redis_data:/data
     networks:
       - backend-network
+    # 2. Добавлен healthcheck для проверки реальной готовности Redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
 
   worker:
     build: .
     container_name: celery_worker
     command: celery -A app.tasks.celery_app worker --loglevel=info
+    # 3. Изменен depends_on: теперь Celery ждет не просто старта контейнера,
+    # а успешного прохождения healthcheck-а от Redis (condition)
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     networks:
       - backend-network
 
 networks:
   backend-network:
     external: true
+
+# 4. Объявление именованного volume для Redis
+volumes:
+  redis_data:
+
+
+
+
+
+#services:
+#
+#  ocr:
+#    build: .
+#    container_name: ocr
+#    ports:
+#      - "8001:8001"
+#    networks:
+#      - backend-network
+#
+#  redis:
+#    image: redis:7-alpine
+#    container_name: redis
+#    networks:
+#      - backend-network
+#
+#  worker:
+#    build: .
+#    container_name: celery_worker
+#    command: celery -A app.tasks.celery_app worker --loglevel=info
+#    depends_on:
+#      - redis
+#    networks:
+#      - backend-network
+#
+#networks:
+#  backend-network:
+#    external: true
 
 
 

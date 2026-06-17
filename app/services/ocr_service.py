@@ -2,15 +2,35 @@ import requests
 from io import BytesIO
 from PIL import Image
 import pytesseract
+from app.core.exceptions import OCRException
 
 
 class OCRService:
     def extract_text(self, image_path: str) -> str:
-        response = requests.get(image_path)
-        response.raise_for_status()
-        image = Image.open(BytesIO(response.content))
+        try:
+            response = requests.get(image_path)
+            response.raise_for_status()
 
-        return pytesseract.image_to_string(image, lang="rus+eng")
+            image = Image.open(BytesIO(response.content))
+
+            return pytesseract.image_to_string(
+                image,
+                lang="rus+eng"
+            )
+
+        except Exception as e:
+            raise OCRException(str(e))
+
+
+
+
+# class OCRService:
+#     def extract_text(self, image_path: str) -> str:
+#         response = requests.get(image_path)
+#         response.raise_for_status()
+#         image = Image.open(BytesIO(response.content))
+#
+#         return pytesseract.image_to_string(image, lang="rus+eng")
 
 
 
