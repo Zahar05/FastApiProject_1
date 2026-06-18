@@ -13,7 +13,8 @@ from app.api.routers import tasks
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="Document Analyzer Service", version="1.0.0", lifespan=lifespan)
+        title="Сервис Анализа Документов", version="1.0.0", lifespan=lifespan)
+        # title="Document Analyzer Service", version="1.0.0", lifespan=lifespan)
 
     app.include_router(tasks.router)
     app.include_router(documents_router)

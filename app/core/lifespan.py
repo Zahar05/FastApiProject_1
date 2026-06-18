@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 @asynccontextmanager
 async def lifespan(app):
 
-    app.state.service_name = "Document Analyzer Service"
+    app.state.service_name = app.title
 
     yield
 
