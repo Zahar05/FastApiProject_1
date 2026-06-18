@@ -5,7 +5,7 @@ import time
 
 @celery_app.task
 def analyze_doc_task(image_id: int, email: str) -> str:
-    time.sleep(12)
+    time.sleep(14)
     service = build_document_process_service()
     return service.process(image_id=image_id, email=email)
 
