@@ -1,15 +1,16 @@
-import os
+# import os
+# from dotenv import load_dotenv
 from celery import Celery
-from dotenv import load_dotenv
+from app.core.config import settings
 
-load_dotenv()
 
-redis_url = os.getenv("REDIS_URL")
+# load_dotenv()
+# redis_url = os.getenv("REDIS_URL")
 
 celery_app = Celery(
-    "document_analyzer",
-    broker=redis_url,
-    backend=redis_url,
+    settings.CELERY_APP_NAME,
+    broker=settings.REDIS_URL,
+    backend=settings.REDIS_URL,
 )
 
 import app.tasks.analyze_doc_task

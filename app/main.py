@@ -9,12 +9,12 @@ from app.core.exception_handlers import (image_not_found_handler, validation_exc
     ocr_exception_handler, email_exception_handler)
 from app.api.routers.email import router as email_router
 from app.api.routers import tasks
+from app.core.config import settings
+
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(
-        title="Сервис Анализа Документов", version="1.0.0", lifespan=lifespan)
-        # title="Document Analyzer Service", version="1.0.0", lifespan=lifespan)
+    app = FastAPI(title=settings.SERVICE_NAME, version=settings.APP_VERSION, lifespan=lifespan)
 
     app.include_router(tasks.router)
     app.include_router(documents_router)

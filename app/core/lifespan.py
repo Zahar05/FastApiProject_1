@@ -1,14 +1,23 @@
 from contextlib import asynccontextmanager
 
+
 @asynccontextmanager
 async def lifespan(app):
     app.state.service_name = app.title
 
     print(f"Запуск {app.state.service_name}")
-
     yield
-
     print(f"Завершение {app.state.service_name}")
+
+# @asynccontextmanager
+# async def lifespan(app):
+#     app.state.service_name = app.title
+#
+#     print(f"Запуск {app.state.service_name}")
+#
+#     yield
+#
+#     print(f"Завершение {app.state.service_name}")
 
 # @asynccontextmanager
 # async def lifespan(app):

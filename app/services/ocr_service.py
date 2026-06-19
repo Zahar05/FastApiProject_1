@@ -3,19 +3,20 @@ from io import BytesIO
 from PIL import Image
 import pytesseract
 from app.core.exceptions import OCRException
+from app.core.config import settings
 
 
 class OCRService:
     def extract_text(self, image_path: str) -> str:
         try:
-            response = requests.get(image_path)
+            response = requests.get(image_path, timeout=settings.HTTP_TIMEOUT)
             response.raise_for_status()
 
             image = Image.open(BytesIO(response.content))
 
             return pytesseract.image_to_string(
                 image,
-                lang="rus+eng"
+                lang=settings.OCR_LANGUAGES
             )
 
         except Exception as e:
