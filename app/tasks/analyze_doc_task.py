@@ -1,10 +1,11 @@
+from typing import Any
 from app.dependencies.depend_services import build_document_process_service
 from app.tasks.celery_app import celery_app
 import time
 
 
 @celery_app.task
-def analyze_doc_task(image_id: int, email: str) -> str:
+def analyze_doc_task(image_id: int, email: str) -> dict[str, Any]:
     time.sleep(10)
     service = build_document_process_service()
     return service.process(image_id=image_id, email=email)
