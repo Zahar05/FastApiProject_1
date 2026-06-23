@@ -1,4 +1,4 @@
-from app.dependencies.depend_services import (build_document_process_service)
+from app.dependencies.depend_services import build_document_process_service
 from app.tasks.celery_app import celery_app
 import time
 
@@ -8,8 +8,6 @@ def analyze_doc_task(image_id: int, email: str) -> str:
     time.sleep(10)
     service = build_document_process_service()
     return service.process(image_id=image_id, email=email)
-
-
 
 
 # from app.dependencies.depend_services import (build_document_analyze_service)
@@ -31,8 +29,6 @@ def analyze_doc_task(image_id: int, email: str) -> str:
 #     return text
 
 
-
-
 # from app.tasks.celery_app import celery_app
 # from app.services.document_analyze_service import (DocumentAnalyzeService)
 # from app.repositories.django_repository import (DjangoRepository)
@@ -51,7 +47,6 @@ def analyze_doc_task(image_id: int, email: str) -> str:
 #     send_email_task.delay(email=email, subject="Image analyzed", message=text)
 #
 #     return text
-
 
 
 # from app.tasks.celery_app import celery_app
@@ -76,7 +71,6 @@ def analyze_doc_task(image_id: int, email: str) -> str:
 #     return text
 
 
-
 # from app.tasks.celery_app import celery_app
 #
 # from app.services.document_analyze_service import (DocumentAnalyzeService)
@@ -97,4 +91,3 @@ def analyze_doc_task(image_id: int, email: str) -> str:
 #     )
 #
 #     return service.analyze(image_id)
-

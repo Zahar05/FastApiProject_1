@@ -2,6 +2,7 @@ from unittest.mock import Mock
 import pytest
 from app.core.exceptions import ImageNotFoundException, OCRException
 from app.services.document_analyze_service import DocumentAnalyzeService
+
 # Импортируем DTO, чтобы создать фейковый объект для тестов
 from app.schemas.django_client_dto import DjangoImageDTO
 
@@ -13,10 +14,7 @@ def test_analyze_success():
 
     # Создаем фейковый DTO-объект, который как будто вернул репозиторий
     fake_dto = DjangoImageDTO(
-        id=1,
-        title="Test Doc",
-        image="http://fake-image-url.com",
-        uploaded_at="2026-06-22T12:00:00Z"
+        id=1, title="Test Doc", image="http://fake-image-url.com", uploaded_at="2026-06-22T12:00:00Z"
     )
     django_repository.get_image_info.return_value = fake_dto
     ocr_service.extract_text.return_value = "Passport number 123456"
@@ -52,10 +50,7 @@ def test_analyze_ocr_failed():
     ocr_service = Mock()
 
     fake_dto = DjangoImageDTO(
-        id=1,
-        title="Test Doc",
-        image="http://fake-image-url.com",
-        uploaded_at="2026-06-22T12:00:00Z"
+        id=1, title="Test Doc", image="http://fake-image-url.com", uploaded_at="2026-06-22T12:00:00Z"
     )
     django_repository.get_image_info.return_value = fake_dto
     ocr_service.extract_text.side_effect = OCRException("OCR failed")
@@ -68,8 +63,6 @@ def test_analyze_ocr_failed():
     django_repository.get_image_info.assert_called_once_with(1)
     # Проверяем, что в OCR ушел именно наш DTO объект
     ocr_service.extract_text.assert_called_once_with(fake_dto)
-
-
 
 
 # from unittest.mock import Mock

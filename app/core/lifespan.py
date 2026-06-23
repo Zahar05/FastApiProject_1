@@ -9,6 +9,7 @@ async def lifespan(app):
     yield
     print(f"Завершение {app.state.service_name}")
 
+
 # @asynccontextmanager
 # async def lifespan(app):
 #     app.state.service_name = app.title
@@ -29,10 +30,6 @@ async def lifespan(app):
 #     yield
 #
 #     print("Application shutdown")
-
-
-
-
 
 
 # from contextlib import asynccontextmanager
@@ -66,4 +63,3 @@ async def lifespan(app):
 #     )
 #
 #     yield ЭТО ПРИВОДИТ К ЦИКЛИЧЕСКОМУ ИМПОРТУ!!!!!
-

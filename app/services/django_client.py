@@ -18,9 +18,6 @@ class DjangoClient:
         return DjangoImageDTO.model_validate(response.json())
 
 
-
-
-
 # import requests
 # from app.core.config import settings
 #
@@ -37,8 +34,6 @@ class DjangoClient:
 #         response.raise_for_status()
 #
 #         return response.json()
-
-
 
 
 # import requests

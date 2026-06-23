@@ -3,6 +3,7 @@ import pytest
 import requests
 
 from app.services.django_client import DjangoClient
+
 # Импортируем наш DTO класс для проверки типа
 from app.schemas.django_client_dto import DjangoImageDTO
 
@@ -16,7 +17,7 @@ def test_get_image_info_success(mock_get):
         "id": 1,
         "title": "Test Image",
         "image": "http://django_app:8000/media/images/test.jpg",
-        "uploaded_at": "2026-06-22T12:00:00Z"
+        "uploaded_at": "2026-06-22T12:00:00Z",
     }
 
     mock_get.return_value = fake_response
@@ -36,16 +37,13 @@ def test_get_image_info_success(mock_get):
 def test_get_image_info_http_error(mock_get):
     fake_response = MagicMock()
 
-    fake_response.raise_for_status.side_effect = (
-        requests.exceptions.HTTPError("404")
-    )
+    fake_response.raise_for_status.side_effect = requests.exceptions.HTTPError("404")
 
     mock_get.return_value = fake_response
     client = DjangoClient()
 
     with pytest.raises(requests.exceptions.HTTPError):
         client.get_image_info(1)
-
 
 
 # from unittest.mock import MagicMock, patch

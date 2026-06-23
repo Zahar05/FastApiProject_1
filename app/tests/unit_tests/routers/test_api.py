@@ -6,7 +6,6 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.dependencies.depend_services import get_service_name
 
-
 client = TestClient(app)
 
 
@@ -16,9 +15,7 @@ def override_dependencies():
     Подменяем dependency для всех тестов.
     """
 
-    app.dependency_overrides[get_service_name] = (
-        lambda: "test_service_name"
-    )
+    app.dependency_overrides[get_service_name] = lambda: "test_service_name"
 
     yield
 
@@ -28,6 +25,7 @@ def override_dependencies():
 # ==========================================================
 # Documents API
 # ==========================================================
+
 
 @patch("app.api.routers.documents.analyze_doc_task.delay")
 def test_analyze_doc_success(mock_delay):
@@ -94,6 +92,7 @@ def test_service_info():
 # Email API
 # ==========================================================
 
+
 @patch("app.api.routers.email.send_email_task.delay")
 def test_send_message_to_email_success(mock_delay):
     """
@@ -147,6 +146,7 @@ def test_send_message_to_email_validation_error():
 # ==========================================================
 # Exception Handlers
 # ==========================================================
+
 
 def test_image_not_found_handler():
     """

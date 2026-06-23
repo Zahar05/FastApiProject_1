@@ -9,4 +9,3 @@ class SendEmailRequest(BaseModel):
 
 class SendEmailResponse(BaseModel):
     detail: str
-

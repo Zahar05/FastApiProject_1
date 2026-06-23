@@ -9,4 +9,3 @@ class AnalyzeDocumentRequest(BaseModel):
 class AnalyzeDocumentResponse(BaseModel):
     detail: str
     task_id: str
-    

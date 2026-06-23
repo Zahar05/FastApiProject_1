@@ -7,31 +7,16 @@ from unittest.mock import patch
 def test_analyze_doc_success(mock_delay, client):
     mock_delay.return_value.id = "task-123"
 
-    response = client.post(
-        "/analyze_doc",
-        json={
-            "image_id": 1,
-            "email": "user@test.com"
-        }
-    )
+    response = client.post("/analyze_doc", json={"image_id": 1, "email": "user@test.com"})
 
     assert response.status_code == 200
 
-    assert response.json() == {
-        "detail": "Document analysis started",
-        "task_id": "task-123"
-    }
+    assert response.json() == {"detail": "Document analysis started", "task_id": "task-123"}
 
-    mock_delay.assert_called_once_with(
-        1,
-        "user@test.com"
-    )
+    mock_delay.assert_called_once_with(1, "user@test.com")
 
 
 def test_analyze_doc_validation_error(client):
-    response = client.post(
-        "/analyze_doc",
-        json={}
-    )
+    response = client.post("/analyze_doc", json={})
 
     assert response.status_code == 422

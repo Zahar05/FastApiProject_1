@@ -11,9 +11,7 @@ def test_send_email_success(mock_smtp):
 
     fake_server = MagicMock()
 
-    mock_smtp.return_value.__enter__.return_value = (
-        fake_server
-    )
+    mock_smtp.return_value.__enter__.return_value = fake_server
 
     service = EmailService()
 
@@ -37,22 +35,16 @@ def test_send_email_auth_error(mock_smtp):
 
     fake_server = MagicMock()
 
-    fake_server.login.side_effect = (
-        smtplib.SMTPAuthenticationError(
-            535,
-            b"auth failed",
-        )
+    fake_server.login.side_effect = smtplib.SMTPAuthenticationError(
+        535,
+        b"auth failed",
     )
 
-    mock_smtp.return_value.__enter__.return_value = (
-        fake_server
-    )
+    mock_smtp.return_value.__enter__.return_value = fake_server
 
     service = EmailService()
 
-    with pytest.raises(
-        smtplib.SMTPAuthenticationError
-    ):
+    with pytest.raises(smtplib.SMTPAuthenticationError):
         service.send(
             email="user@test.com",
             subject="Hello",

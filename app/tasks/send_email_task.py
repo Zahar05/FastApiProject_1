@@ -4,6 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 @celery_app.task
 def send_email_task(email: str, subject: str, message: str):
     try:
@@ -19,7 +20,6 @@ def send_email_task(email: str, subject: str, message: str):
             "status": "failed",
             "reason": str(e),
         }
-
 
 
 # from app.tasks.celery_app import celery_app

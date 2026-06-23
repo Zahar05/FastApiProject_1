@@ -8,5 +8,3 @@ class DjangoRepository:
 
     def get_image_info(self, image_id: int) -> DjangoImageDTO:
         return self.django_client.get_image_info(image_id)
-
-

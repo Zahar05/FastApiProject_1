@@ -1,7 +1,8 @@
-from unittest.mock import MagicMock, patch, Mock
+from unittest.mock import patch, Mock
 import pytest
 from app.services.ocr_service import OCRService
 from app.core.exceptions import OCRException
+
 # Импортируем DTO, чтобы сконструировать объект для теста
 from app.schemas.django_client_dto import DjangoImageDTO
 
@@ -29,10 +30,7 @@ def test_extract_text_success(
 
     # 1. Создаем фейковый объект DTO вместо строки URL
     fake_dto = DjangoImageDTO(
-        id=1,
-        title="Test OCR",
-        image="http://example.com/image.jpg",
-        uploaded_at="2026-06-22T12:00:00Z"
+        id=1, title="Test OCR", image="http://example.com/image.jpg", uploaded_at="2026-06-22T12:00:00Z"
     )
 
     # 2. Передаем DTO в сервис
@@ -50,18 +48,13 @@ def test_extract_text_http_error(mock_get):
 
     # Создаем фейковый объект DTO для теста с ошибкой
     fake_dto = DjangoImageDTO(
-        id=1,
-        title="Test OCR Error",
-        image="http://example.com/image.jpg",
-        uploaded_at="2026-06-22T12:00:00Z"
+        id=1, title="Test OCR Error", image="http://example.com/image.jpg", uploaded_at="2026-06-22T12:00:00Z"
     )
 
     with pytest.raises(OCRException) as exc:
         service.extract_text(fake_dto)
 
     assert "Connection error" in str(exc.value)
-
-
 
 
 # from unittest.mock import Mock, patch
@@ -117,29 +110,3 @@ def test_extract_text_http_error(mock_get):
 #         )
 #
 #     assert "Connection error" in str(exc.value)
-
-
-
-# уже полностью в актуальном виде под твою текущую архитектуру, чтобы их можно было просто скопировать и запускать через:
-# pytest app/tests/unit_tests -v
-#
-# Что здесь проверяем
-# test_extract_text_success
-#
-# Проверяем весь happy path:
-#
-# requests.get()
-# ↓
-# Image.open()
-# ↓
-# pytesseract.image_to_string()
-# ↓
-# вернулся текст
-# test_extract_text_http_error
-#
-# Проверяем блок:
-#
-# except Exception as e:
-#     raise OCRException(str(e))
-#
-# То есть любое исключение должно превратиться в OCRException.

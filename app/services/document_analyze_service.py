@@ -27,4 +27,3 @@ class DocumentAnalyzeService:
     #     # text = self.ocr_service.extract_text(image_info["image_url"])
     #
     #     return text
-

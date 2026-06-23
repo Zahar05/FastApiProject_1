@@ -35,9 +35,7 @@ def test_send_email_task_failure(
 ):
     service = Mock()
 
-    service.send.side_effect = Exception(
-        "SMTP error"
-    )
+    service.send.side_effect = Exception("SMTP error")
 
     mock_email_service.return_value = service
 
@@ -61,9 +59,7 @@ def test_analyze_doc_task_success(
 ):
     service = Mock()
 
-    service.process.return_value = (
-        "analysis completed"
-    )
+    service.process.return_value = "analysis completed"
 
     mock_builder.return_value = service
 

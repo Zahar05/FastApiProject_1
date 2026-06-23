@@ -4,6 +4,7 @@ from PIL import Image
 import pytesseract
 from app.core.exceptions import OCRException
 from app.core.config import settings
+
 # Инициализируем импорт DTO для явного указания типа данных
 from app.schemas.django_client_dto import DjangoImageDTO
 
@@ -20,16 +21,10 @@ class OCRService:
 
             image = Image.open(BytesIO(response.content))
 
-            return pytesseract.image_to_string(
-                image,
-                lang=settings.OCR_LANGUAGES
-            )
+            return pytesseract.image_to_string(image, lang=settings.OCR_LANGUAGES)
 
         except Exception as e:
             raise OCRException(str(e))
-
-
-
 
 
 # import requests
@@ -57,10 +52,6 @@ class OCRService:
 #             raise OCRException(str(e))
 
 
-
-
-
-
 # class OCRService:
 #     def extract_text(self, image_path: str) -> str:
 #         response = requests.get(image_path)
@@ -68,9 +59,6 @@ class OCRService:
 #         image = Image.open(BytesIO(response.content))
 #
 #         return pytesseract.image_to_string(image, lang="rus+eng")
-
-
-
 
 
 # from PIL import Image
@@ -82,14 +70,12 @@ class OCRService:
 #         return pytesseract.image_to_string(Image.open(image_path), lang="rus+eng")
 
 
-
 # class OCRService: после поключения Джанго
 #
 #     def extract_text(self, image_path: str) -> str:
 #         image = Image.open(image_path)
 #         text = pytesseract.image_to_string(image, lang="eng")
 #         return text
-
 
 
 # class OCRService:

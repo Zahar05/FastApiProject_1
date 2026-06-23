@@ -3,15 +3,17 @@ from fastapi import Request
 from app.services.ocr_service import OCRService
 from app.services.django_client import DjangoClient
 from app.repositories.django_repository import DjangoRepository
-from app.services.document_analyze_service import (DocumentAnalyzeService)
-from app.services.document_process_service import (DocumentProcessService)
+from app.services.document_analyze_service import DocumentAnalyzeService
+from app.services.document_process_service import DocumentProcessService
 
 
 def get_service_name(request: Request):
     return request.app.state.service_name
 
+
 def build_document_process_service() -> DocumentProcessService:
     return DocumentProcessService(document_analyze_service=build_document_analyze_service())
+
 
 def build_document_analyze_service() -> DocumentAnalyzeService:
     return DocumentAnalyzeService(
@@ -20,6 +22,7 @@ def build_document_analyze_service() -> DocumentAnalyzeService:
         ),
         ocr_service=OCRService(),
     )
+
 
 # def get_document_process_service(request: Request) -> DocumentProcessService:
 #     return request.app.state.document_process_service

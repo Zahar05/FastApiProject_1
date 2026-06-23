@@ -1,8 +1,5 @@
-# import os
-# from dotenv import load_dotenv
 from celery import Celery
 from app.core.config import settings
-
 
 # load_dotenv()
 # redis_url = os.getenv("REDIS_URL")
@@ -13,10 +10,8 @@ celery_app = Celery(
     backend=settings.REDIS_URL,
 )
 
-import app.tasks.analyze_doc_task
-import app.tasks.send_email_task
-
-
+import app.tasks.analyze_doc_task  # noqa: E402
+import app.tasks.send_email_task  # noqa: E402, F401
 
 # import os
 #
@@ -47,7 +42,6 @@ import app.tasks.send_email_task
 # celery_app = Celery("document_analyzer")
 #
 # celery_app.conf.result_backend = os.getenv("REDIS_URL")
-
 
 
 # celery_app.conf.update(task_always_eager=True)

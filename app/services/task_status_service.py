@@ -24,8 +24,6 @@ class TaskStatusService:
         return response
 
 
-
-
 # class TaskStatusService:
 #
 #     def get_status(self, task_id: str) -> dict:
@@ -35,7 +33,6 @@ class TaskStatusService:
 #             "status": task.status,
 #             "result": task.result,
 #         }
-
 
 
 # from celery.result import AsyncResult

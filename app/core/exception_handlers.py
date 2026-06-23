@@ -15,9 +15,7 @@ async def image_not_found_handler(
 ):
     return JSONResponse(
         status_code=404,
-        content={
-            "detail": f"Image with id={exc.image_id} not found"
-        },
+        content={"detail": f"Image with id={exc.image_id} not found"},
     )
 
 
@@ -27,9 +25,7 @@ async def validation_exception_handler(
 ):
     return JSONResponse(
         status_code=422,
-        content={
-            "detail": "Validation error"
-        },
+        content={"detail": "Validation error"},
     )
 
 
@@ -39,9 +35,7 @@ async def ocr_exception_handler(
 ):
     return JSONResponse(
         status_code=422,
-        content={
-            "detail": exc.detail
-        },
+        content={"detail": exc.detail},
     )
 
 
@@ -51,12 +45,8 @@ async def email_exception_handler(
 ):
     return JSONResponse(
         status_code=422,
-        content={
-            "detail": exc.detail
-        },
+        content={"detail": exc.detail},
     )
-
-
 
 
 # from fastapi import Request
