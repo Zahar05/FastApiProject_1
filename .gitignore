@@ -1,2 +1,8 @@
 **/__pycache__/
 .venv/
+# Coverage
+.coverage
+
+# Учебные/временные файлы
+Example_D_I.py
+app/new_free.py
