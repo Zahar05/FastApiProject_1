@@ -11,6 +11,7 @@ from app.core.exception_handlers import (
     ocr_exception_handler,
     email_exception_handler,
 )
+from app.api.routers.health import router as health_router
 from app.api.routers.email import router as email_router
 from app.api.routers import tasks
 from app.core.config import settings
@@ -22,6 +23,7 @@ def create_app() -> FastAPI:
     app.include_router(tasks.router)
     app.include_router(documents_router)
     app.include_router(email_router)
+    app.include_router(health_router)
 
     app.add_exception_handler(ImageNotFoundException, image_not_found_handler)
 
