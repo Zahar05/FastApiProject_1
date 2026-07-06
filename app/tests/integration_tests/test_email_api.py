@@ -8,7 +8,8 @@ def test_send_email_success(mock_delay, client):
     mock_delay.return_value.id = "email-task"
 
     response = client.post(
-        "/send_message_to_email", json={"email": "user@test.com", "subject": "Hello", "message": "World"}
+        "/send_message_to_email",
+        json={"email": "user@test.com", "subject": "Hello", "message": "World"},
     )
 
     assert response.status_code == 200

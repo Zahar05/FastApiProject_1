@@ -11,7 +11,10 @@ def test_analyze_doc_success(mock_delay, client):
 
     assert response.status_code == 200
 
-    assert response.json() == {"detail": "Document analysis started", "task_id": "task-123"}
+    assert response.json() == {
+        "detail": "Document analysis started",
+        "task_id": "task-123",
+    }
 
     mock_delay.assert_called_once_with(1, "user@test.com")
 

@@ -30,7 +30,10 @@ def test_extract_text_success(
 
     # 1. Создаем фейковый объект DTO вместо строки URL
     fake_dto = DjangoImageDTO(
-        id=1, title="Test OCR", image="http://example.com/image.jpg", uploaded_at="2026-06-22T12:00:00Z"
+        id=1,
+        title="Test OCR",
+        image="http://example.com/image.jpg",
+        uploaded_at="2026-06-22T12:00:00Z",
     )
 
     # 2. Передаем DTO в сервис
@@ -48,7 +51,10 @@ def test_extract_text_http_error(mock_get):
 
     # Создаем фейковый объект DTO для теста с ошибкой
     fake_dto = DjangoImageDTO(
-        id=1, title="Test OCR Error", image="http://example.com/image.jpg", uploaded_at="2026-06-22T12:00:00Z"
+        id=1,
+        title="Test OCR Error",
+        image="http://example.com/image.jpg",
+        uploaded_at="2026-06-22T12:00:00Z",
     )
 
     with pytest.raises(OCRException) as exc:
