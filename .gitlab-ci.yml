@@ -12,6 +12,15 @@ black:
   script:
     - black --check .
 
+flake8:
+  stage: lint
+  script:
+    - flake8 .
+
+mypy:
+  stage: lint
+  script:
+    - mypy .
 
 #image: python:3.12
 #
