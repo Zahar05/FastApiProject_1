@@ -11,3 +11,18 @@ black:
   stage: lint
   script:
     - black --check .
+
+
+#image: python:3.12
+#
+#stages:
+#  - lint
+#
+#before_script:
+#  - python -m pip install --upgrade pip
+#  - pip install -r requirements.txt
+#
+#black:
+#  stage: lint
+#  script:
+#    - black --check .
