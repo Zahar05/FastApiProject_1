@@ -43,12 +43,8 @@ jobs:
 
   # --- СТАДИЯ 2: Запуск и деплой на вашем Self-Hosted раннере ---
   deploy:
-    # Запускаем только после успешного выполнения джобы 'test'
     needs: test
-    # Запускаем деплой только при пуше в master (чтобы не деплоить сырые ветки из Pull Request)
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-
-    # Указываем ваш собственный раннер FastRunner
     runs-on: self-hosted
 
     steps:
@@ -69,32 +65,43 @@ jobs:
           pip install -r requirements.txt
           
           echo "=== 4. Сборка Docker-образа локально ==="
-          # Перенесли сборку Docker сюда, чтобы образ создавался прямо на вашем компьютере/сервере
           docker build -t fastapi-project .
           
-          echo "=== 5. Скрипты успешно выполнены! ==="
+          echo "=== 5. Перезапуск контейнера на порту 8001 ==="
+          # Останавливаем старый контейнер, если он существует
+          docker stop fastapi-app || true
+          docker rm fastapi-app || true
+          
+          # Запускаем новый контейнер. 
+          # Если ваше приложение внутри контейнера слушает порт 8001, пишем 8001:8001.
+          # Если внутри контейнера зашит порт 8000, то укажите -p 8001:8000.
+          docker run -d --name fastapi-app --restart always -p 8001:8001 fastapi-project
+          
+          echo "=== 6. Проверка статуса запущенного контейнера ==="
+          docker ps -a
 
 
 
-#name: Python CI
+
+
+
+#name: Python CI & Deployment
 #
 #on:
 #  push:
 #    branches:
 #      - master
 #      - Py_git
-#
 #  pull_request:
 #    branches:
 #      - master
 #
 #jobs:
+#  # --- СТАДИЯ 1: Тестирование в облаке GitHub ---
 #  test:
-#
 #    runs-on: ubuntu-latest
 #
 #    steps:
-#
 #      - uses: actions/checkout@v4
 #
 #      - uses: actions/setup-python@v5
@@ -121,5 +128,37 @@ jobs:
 #      - name: Pytest
 #        run: pytest
 #
-#      - name: Build Docker image
-#        run: docker build -t fastapi-project .
+#  # --- СТАДИЯ 2: Запуск и деплой на вашем Self-Hosted раннере ---
+#  deploy:
+#    # Запускаем только после успешного выполнения джобы 'test'
+#    needs: test
+#    # Запускаем деплой только при пуше в master (чтобы не деплоить сырые ветки из Pull Request)
+#    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+#
+#    # Указываем ваш собственный раннер FastRunner
+#    runs-on: self-hosted
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Run FastAPI Application Scripts
+#        run: |
+#          echo "=== 1. Проверяем окружение ==="
+#          if [ ! -d ".venv" ]; then
+#            python3 -m venv .venv
+#          fi
+#
+#          echo "=== 2. Активируем .venv и обновляем pip ==="
+#          source .venv/bin/activate
+#          pip install --upgrade pip
+#
+#          echo "=== 3. Устанавливаем зависимости на сервере ==="
+#          pip install -r requirements.txt
+#
+#          echo "=== 4. Сборка Docker-образа локально ==="
+#          # Перенесли сборку Docker сюда, чтобы образ создавался прямо на вашем компьютере/сервере
+#          docker build -t fastapi-project .
+#
+#          echo "=== 5. Скрипты успешно выполнены! ==="
+
+
