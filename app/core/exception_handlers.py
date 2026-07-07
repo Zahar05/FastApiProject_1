@@ -1,4 +1,4 @@
-from fastapi import Request
+from fastapi import Request, status
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 
@@ -9,87 +9,65 @@ from app.core.exceptions import (
 )
 
 
-async def image_not_found_handler(
-    request: Request,
-    exc: ImageNotFoundException,
-):
-    return JSONResponse(
-        status_code=404,
-        content={"detail": f"Image with id={exc.image_id} not found"},
-    )
+# 1. Для ImageNotFoundException
+async def image_not_found_handler(request: Request, exc: Exception) -> JSONResponse:
+    assert isinstance(exc, ImageNotFoundException)
+    return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"detail": str(exc)})
 
 
-async def validation_exception_handler(
-    request: Request,
-    exc: RequestValidationError,
-):
-    return JSONResponse(
-        status_code=422,
-        content={"detail": "Validation error"},
-    )
+# 2. Для RequestValidationError
+async def validation_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    assert isinstance(exc, RequestValidationError)
+    return JSONResponse(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, content={"detail": exc.errors()})
 
 
-async def ocr_exception_handler(
-    request: Request,
-    exc: OCRException,
-):
-    return JSONResponse(
-        status_code=422,
-        content={"detail": exc.detail},
-    )
+# 3. Для OCRException
+async def ocr_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    assert isinstance(exc, OCRException)
+    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"detail": str(exc)})
 
 
-async def email_exception_handler(
-    request: Request,
-    exc: EmailSendException,
-):
-    return JSONResponse(
-        status_code=422,
-        content={"detail": exc.detail},
-    )
+# 4. Для EmailSendException
+async def email_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    assert isinstance(exc, EmailSendException)
+    return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content={"detail": str(exc)})
 
 
-# from fastapi import Request
-# from fastapi.responses import JSONResponse
-# from fastapi.exceptions import RequestValidationError
-# from app.core.exceptions import (ImageNotFoundException, OCRException, EmailSendException)
-#
-#
-# async def image_not_found_handler(exc: ImageNotFoundException):
-#     return JSONResponse(status_code=404,content={"detail": f"Image with id={exc.image_id} not found"})
+# async def image_not_found_handler(
+#     request: Request,
+#     exc: ImageNotFoundException,
+# ) -> Response:
+#     return JSONResponse(
+#         status_code=404,
+#         content={"detail": f"Image with id={exc.image_id} not found"},
+#     )
 #
 #
 # async def validation_exception_handler(
 #     request: Request,
 #     exc: RequestValidationError,
-# ):
+# ) -> Response:
 #     return JSONResponse(
 #         status_code=422,
-#         content={
-#             "detail": "Validation error"
-#         },
+#         content={"detail": "Validation error"},
 #     )
 #
 #
 # async def ocr_exception_handler(
 #     request: Request,
 #     exc: OCRException,
-# ):
+# ) -> Response:
 #     return JSONResponse(
 #         status_code=422,
-#         content={
-#             "detail": "OCR processing failed"
-#         },
+#         content={"detail": exc.detail},
 #     )
 #
 #
 # async def email_exception_handler(
 #     request: Request,
 #     exc: EmailSendException,
-# ):
+# ) -> Response:
 #     return JSONResponse(
 #         status_code=422,
-#         content={
-#             "detail": "Email sending failed"
-#         },
+#         content={"detail": exc.detail},
 #     )
